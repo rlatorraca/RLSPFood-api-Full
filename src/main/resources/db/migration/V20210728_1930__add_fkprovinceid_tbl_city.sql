@@ -1,0 +1,1 @@
+alter table tbl_city add constraint fk_city_province foreign key (province_id) references tbl_province(id);

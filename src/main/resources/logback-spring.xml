@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true">
+
+    <!-- Config para aparecer no console as logs do SpringBoot - caminho dentro das dependencias do Spring Boot -->
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <!-- Apenas ira enviar os logos da aplicacao para o loggly se estar no PROFILE de Producao -->
+    <springProfile name="production">
+        <springProperty name="logglyToken" source="loggly.token" />
+
+        <!-- apppender => escreve logs em alguma lugar (no caso nos servidores do Loggly -->
+        <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
+            <endpointUrl>https://logs-01.loggly.com/inputs/${logglyToken}/tag/logback</endpointUrl>
+            <pattern>%d{"ISO8601", UTC}  %p %t %c{0}.%M - %m%n</pattern>
+        </appender>
+
+        <!-- Appender assincrono -->
+        <appender name="logglyAsync" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="loggly" />
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="logglyAsync" />
+        </root>
+    </springProfile>
+
+
+</configuration>
