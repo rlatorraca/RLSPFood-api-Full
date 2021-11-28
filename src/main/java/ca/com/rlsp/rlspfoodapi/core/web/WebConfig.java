@@ -22,14 +22,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private ApiRetirementHandler apiRetirementHandler;
 
-    // Habilita o CORS globalmente na aplicacao
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods("*") // metodos permitidos (* = todos)
-                .allowedOrigins("*") // Origins permitidos (* = todos)
-                .maxAge(600); // cache do tempo do preflight do CORS (10 minutos no caso)
-    }
+//    // Habilita o CORS globalmente na aplicacao
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedMethods("*") // metodos permitidos (* = todos)
+//                .allowedOrigins("*") // Origins permitidos (* = todos)
+//                .maxAge(600); // cache do tempo do preflight do CORS (10 minutos no caso)
+//    }
 
 
     /*

@@ -50,7 +50,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: rlspfood_grafanaa
+    container_name: rlspfoodFull_grafanaa
     ports:
       - "3000:3000"
     mem_limit: 128M

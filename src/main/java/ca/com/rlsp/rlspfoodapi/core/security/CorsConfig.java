@@ -1,4 +1,4 @@
-package ca.com.rlsp.rlspfoodapi.core.security.authorizationServer;
+package ca.com.rlsp.rlspfoodapi.core.security;
 
 // Research source: https://spring.io/blog/2015/06/08/cors-support-in-spring-framework#filter-based-cors-support
 
@@ -19,8 +19,12 @@ import java.util.Collections;
 @Configuration
 public class CorsConfig {
 
+	/**
+	 * Essa configuracao de CORS funciona tanto para o Authorization Server como para o Resource Server
+	 * @return
+	 */
 	@Bean
-	public FilterRegistrationBean<CorsFilter> corsFilter() {
+	public FilterRegistrationBean<CorsFilter> corsFilterResgistrationBean() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.addAllowedOriginPattern("*");
@@ -29,7 +33,8 @@ public class CorsConfig {
 		config.setAllowedHeaders(Collections.singletonList("*"));
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/oauth/token", config);
+		//source.registerCorsConfiguration("/oauth/token", config);
+		source.registerCorsConfiguration("**", config);
 
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>();
 		bean.setFilter(new CorsFilter(source));

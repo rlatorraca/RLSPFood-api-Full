@@ -185,14 +185,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         /**
          * Assimetric key
          */
-        var jksResource = new ClassPathResource("rsa-keystores/rlspfood.jks");
-        //var keyStorePass = "000000000";
         var keyStorePass = rlspFoodJwtKeyStoreProperties.getPassword();
-        //var keyParAlias = "rlsp____";
         var keyParAlias = rlspFoodJwtKeyStoreProperties.getKeyPairAlias();
 
         // Abre o arquivo para pegar as chaves
-        var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, keyStorePass.toCharArray());
+        var keyStoreKeyFactory = new KeyStoreKeyFactory(rlspFoodJwtKeyStoreProperties.getJksLocation(), keyStorePass.toCharArray());
 
         //Pega o par de chaves por meio do alias
         var keyPair = keyStoreKeyFactory.getKeyPair(keyParAlias);
