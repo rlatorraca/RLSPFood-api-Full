@@ -32,6 +32,10 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
+                .formLogin().loginPage("/login")
+                .and()
+                .authorizeRequests().antMatchers("/oath/**").authenticated()
+                .and()
             //.authorizeRequests()
               //.antMatchers(HttpMethod.POST, "/v2/cuisines/**").hasAuthority("EDIT_CUISINE")
               //.antMatchers(HttpMethod.PUT, "/v2/cuisines/**").hasAuthority("EDIT_CUISINE")

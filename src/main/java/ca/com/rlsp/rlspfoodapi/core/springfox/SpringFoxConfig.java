@@ -27,11 +27,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.io.File;
@@ -76,6 +74,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         .build()
                 .apiInfo(rlspApiInfoV1())
                 .groupName("V1")
+
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(List.of(authenticationScheme())) // Tecnica de seguranca usada pelo APP
+                .securityContexts(List.of(securityContext()))
+
                 .useDefaultResponseMessages(false) // Desabilita os codigo de resposta Standard para ERRORs
                 .globalResponses(HttpMethod.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
@@ -175,6 +178,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .build()
                 .apiInfo(rlspApiInfoV2())
                 .groupName("V2")
+
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(List.of(authenticationScheme())) // Tecnica de seguranca usada pelo APP
+                .securityContexts(List.of(securityContext()))
+
                 .useDefaultResponseMessages(false) // Desabilita os codigo de resposta Standard para ERRORs
                 .globalResponses(HttpMethod.GET, globalMsgErrorResponseMessagesToGET()) // Customized Msgs de ERROR para o GET
                 .globalResponses(HttpMethod.POST, globalMsgErrorResponseMessagesToPOST()) // Customized Msgs de ERROR para o GET
@@ -198,6 +206,45 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                         new Tag("Cuisines", "Manage all endpoints to Cuisine's Resources")
 
                 );
+    }
+
+    private SecurityScheme securityScheme() {
+        return new OAuthBuilder()
+                .name("RLSPFoodOuth2")
+                .grantTypes(grantTypes())
+                .scopes(scopes())
+                .build();
+    }
+
+    /**
+     * Mostra qual tipo de FLOW que sera usado para gerar o Token na documentacao (no caso sera o Password flow)
+     *  -> /oauth/token : o endereco que sera usado para gerar o Token
+     * @return
+     */
+    private List<GrantType> grantTypes() {
+        return Arrays.asList(new ResourceOwnerPasswordCredentialsGrant("/oauth/token"));
+    }
+
+    private List<AuthorizationScope> scopes() {
+        return Arrays.asList(new AuthorizationScope("READ", "READING access"),
+                new AuthorizationScope("WRITE", "EDITING/WRITING access"));
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(securityReference()).build();
+    }
+
+
+    private List<SecurityReference> securityReference() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return List.of(new SecurityReference("Authorization", authorizationScopes));
+    }
+
+    private HttpAuthenticationScheme authenticationScheme() {
+        return HttpAuthenticationScheme.JWT_BEARER_BUILDER.name("Authorization").build();
     }
 
     /*

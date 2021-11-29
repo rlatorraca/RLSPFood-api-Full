@@ -24,7 +24,7 @@ public class OrderCanceledListener {
 
         var message = SendEmailService.Message.builder()
                 .subject(order.getRestaurant().getName() + "- Order Canceled")
-                .body("order-canceled.html")
+                .body("emails/order-canceled.html")
                 .templateAttribute("order", order)
                 .destination(order.getUser().getEmail())
                 .build();
