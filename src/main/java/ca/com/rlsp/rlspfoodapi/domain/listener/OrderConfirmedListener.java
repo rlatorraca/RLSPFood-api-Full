@@ -24,7 +24,7 @@ public class OrderConfirmedListener {
 
         var message = SendEmailService.Message.builder()
                 .subject(order.getRestaurant().getName() + "- Order Confirmed")
-                .body("order-confirmed.html")
+                .body("emails/order-confirmed.html")
                 .templateAttribute("order", order)
                 .destination(order.getUser().getEmail())
                 .build();

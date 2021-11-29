@@ -32,7 +32,7 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
-                .formLogin()
+                .formLogin().loginPage("/login")
                 .and()
                 .authorizeRequests().antMatchers("/oath/**").authenticated()
                 .and()
