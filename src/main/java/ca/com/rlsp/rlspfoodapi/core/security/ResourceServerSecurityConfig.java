@@ -32,11 +32,13 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .formLogin().loginPage("/login")
-                .and()
                 .authorizeRequests().antMatchers("/oauth/**").authenticated()
                 .and()
-                .cors().and()
+                .formLogin().loginPage("/login")
+                .and()
+                .cors()
+                .and()
+                .csrf().disable()
             //.authorizeRequests()
               //.antMatchers(HttpMethod.POST, "/v2/cuisines/**").hasAuthority("EDIT_CUISINE")
               //.antMatchers(HttpMethod.PUT, "/v2/cuisines/**").hasAuthority("EDIT_CUISINE")

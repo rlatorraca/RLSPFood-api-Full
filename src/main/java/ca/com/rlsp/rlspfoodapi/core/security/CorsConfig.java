@@ -24,7 +24,7 @@ public class CorsConfig {
 	 * @return
 	 */
 	@Bean
-	public FilterRegistrationBean<CorsFilter> corsFilterResgistrationBean() {
+	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.addAllowedOriginPattern("*");
@@ -34,7 +34,7 @@ public class CorsConfig {
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		//source.registerCorsConfiguration("/oauth/token", config);
-		source.registerCorsConfiguration("**", config);
+		source.registerCorsConfiguration("/**", config);
 
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>();
 		bean.setFilter(new CorsFilter(source));
