@@ -1,9 +1,12 @@
 package ca.com.rlsp.rlspfoodapi.core.security.authorizationServer;
 
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.RSAKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +25,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
+import java.security.KeyPair;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 
 @Configuration
@@ -161,6 +166,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
+    /**
+     * Usado para gerar a CHAVE Publica JWT para checar se os tokens
+     * @return
+     */
+    @Bean
+    public JWKSet jwkSet() {
+        RSAKey.Builder builder = new RSAKey.Builder((RSAPublicKey) getKeyPair().getPublic())
+                .keyUse(KeyUse.SIGNATURE)
+                .algorithm(JWSAlgorithm.RS256)
+                .keyID("rlspfood-key-id");
+
+        return new JWKSet(builder.build());
+    }
 
 
     /**
@@ -182,6 +200,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
          */
         // jwtAccessTokenConverter.setSigningKey("R0dr1g0L4t0rr4c4D3SP1R3SR0dr1g0L4t0rr4c4D3SP1R3SR0dr1g0L4t0rr4c4D3SP1R3S");
 
+
+
+        jwtAccessTokenConverter.setKeyPair(getKeyPair());
+
+
+        return jwtAccessTokenConverter;
+    }
+
+    private KeyPair getKeyPair() {
         /**
          * Assimetric key
          */
@@ -194,10 +221,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //Pega o par de chaves por meio do alias
         var keyPair = keyStoreKeyFactory.getKeyPair(keyParAlias);
 
-        jwtAccessTokenConverter.setKeyPair(keyPair);
-
-
-        return jwtAccessTokenConverter;
+        return keyPair;
     }
 
     /**
