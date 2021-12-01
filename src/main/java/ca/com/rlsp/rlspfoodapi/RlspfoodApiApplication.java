@@ -1,5 +1,6 @@
 package ca.com.rlsp.rlspfoodapi;
 
+import ca.com.rlsp.rlspfoodapi.core.io.Base64ProtocolResolver;
 import ca.com.rlsp.rlspfoodapi.infra.repository.customized.CustomJpaRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -16,7 +17,15 @@ public class RlspfoodApiApplication {
 
     public static void main(String[] args) {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC")); // Confgura o TimeZone para UTC e nao no GMT -3
-        SpringApplication.run(RlspfoodApiApplication.class, args);
+
+        // SpringApplication.run(RlspfoodApiApplication.class, args);
+        /**
+         * Abaixo um implementacao diferente para  "SpringApplication.run(RlspfoodApiApplication.class, args);
+         */
+        var app = new SpringApplication(RlspfoodApiApplication.class);
+        app.addListeners(new Base64ProtocolResolver());
+        app.run(args);
+
     }
 
 }
