@@ -1,0 +1,36 @@
+# Compilando o APP JAVA com com o maven (dentro da pasta raiz do projeto)
+$ ./mvnw clean package -Dmaven.test.skip=true
+
+
+# Rodando o DockerFiledocker
+$ docker image build -t rlspfood:1.0 .
+$ docker container run --rm -p 8080:8080 rlspfood
+
+# Renomeando uma imagem
+$ docker image ls
+$ docker image tag <errado> <nova-tag>
+
+
+# Apagar imagem nao mais usada / com tag errada
+$ docker image rm <nome_para_apagar>
+
+
+# Verficiar as redes docker existentes
+$ docker network ls
+
+# Criar uma rede docker
+$ docker network create --driver bridge <nome_rede>
+
+** bridge = driver padrao (deixa  rede isolada), mas permite a conexao entre container presentes dentro dessa rede
+
+# Deleta container e volume
+$ docker container rm rlsp_mysql --force --volumes
+
+# Criando o MYSQL e colocando dentro da rede da aplicacao (rlspfood-network)
+$ docker container run -d -p 3308:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes --network rlspfood-network --name rlspfood-mysql mysql:8.0
+
+# Acessando o LOG do MYSQL
+$ docker container logs <numero_container>
+
+# Rodando a aplicacao usando ${DB_HOSTNAME}
+$ docker container run --rm -p 8080:8080 -e DB_HOSTNAME=rlspfood-mysql --network rlspfood-network rlspfood-api
