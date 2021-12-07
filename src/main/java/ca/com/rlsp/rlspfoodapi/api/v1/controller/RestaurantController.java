@@ -67,6 +67,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
                                 RestaurantInputDisassembler restaurantInputDisassembler,
                                 RestaurantBasicsModelAssembler restaurantBasicsModelAssembler,
                                 RestaurantJustNameModelAssembler restaurantJustNameModelAssembler) {
+
         this.restaurantRegistrationService = restaurantRegistrationService;
         this.restaurantRepository = restaurantRepository;
         this.smartValidator = smartValidator;

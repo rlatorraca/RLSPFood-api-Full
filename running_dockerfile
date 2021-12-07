@@ -29,8 +29,19 @@ $ docker container rm rlsp_mysql --force --volumes
 # Criando o MYSQL e colocando dentro da rede da aplicacao (rlspfood-network)
 $ docker container run -d -p 3308:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes --network rlspfood-network --name rlspfood-mysql mysql:8.0
 
+
 # Acessando o LOG do MYSQL
 $ docker container logs <numero_container>
 
 # Rodando a aplicacao usando ${DB_HOSTNAME}
-$ docker container run --rm -p 8080:8080 -e DB_HOSTNAME=rlspfood-mysql --network rlspfood-network rlspfood-api
+#### $ docker container run --rm -p 8080:8080 -e DB_HOSTNAME=rlspfood-mysql --network rlspfood-network rlspfood-api
+$ docker container run --rm -p 8080:8080 -e DB_HOST=rlspfood-mysql -e DB_PORT=3306 --network rlspfood-network rlspfood:1.0
+
+# Conectar no MYSQL, para fazer alteracoes de permissoes
+# Pois, o o usuário root está configurado apenas para conexões a partir de localhost ('root'@'localhost').
+# Você pode mudar esse comportamento rodando os comandos abaixo pra permitir conexões de qualquer host:
+$ mysql -h localhost -u root -p root
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
+UPDATE mysql.user SET host='%' WHERE user='root';
