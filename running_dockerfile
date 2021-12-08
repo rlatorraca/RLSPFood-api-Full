@@ -52,3 +52,13 @@ FLUSH PRIVILEGES;
 UPDATE mysql.user SET host='%' WHERE user='root';
 
 SET PASSWORD FOR 'root'@'localhost' = 'mypass';
+
+
+##
+## Publicando no dockerhub
+## $ docker tag local-image:tagname new-repo:tagname
+   $ docker push new-repo:tagname
+##
+$ docker image tag rlspfood:1.0 rlatorraca/rlspfood-api:1.0
+$ docker push rlspfood:1.0
+$ docker container run --rm -p 8080:8080 -e DB_HOST=rlspfood-mysql -e DB_PORT=3306 --network rlspfood-network rlatorraca/rlspfood-api:1.0
