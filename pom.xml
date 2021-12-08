@@ -12,7 +12,7 @@
 
     <groupId>ca.com.rlsp</groupId>
     <artifactId>rlspfood-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>rlspfood-api</name>
     <description>RLSP Fodd is an API to delivery food</description>
 
@@ -29,6 +29,9 @@
         <!-- Authatication Server -->
         <spring-security-oauth2.version>2.3.7.RELEASE</spring-security-oauth2.version>
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+
+        <!-- Docker File Maven-->
+        <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
     </properties>
 
     <dependencies>
@@ -317,5 +320,36 @@
             <url>https://projectlombok.org/edge-releases</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <profile>
+            <id>docker</id>
+                <build>
+                   <plugins>
+                       <plugin>
+                           <groupId>com.spotify</groupId>
+                           <artifactId>dockerfile-maven-plugin</artifactId>
+                           <version>${dockerfile-maven-version}</version>
+                           <executions>
+                               <execution>
+                                   <id>default</id>
+                                   <goals>
+                                       <goal>build</goal>
+                                       <goal>push</goal>
+                                   </goals>
+                               </execution>
+                           </executions>
+                           <configuration>
+                               <repository>rlspfood</repository>
+                               <tag>${project.version}</tag>
+                               <buildArgs>
+                                   <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                               </buildArgs>
+                           </configuration>
+                       </plugin>
+                   </plugins>
+                </build>
+        </profile>
+    </profiles>
 
 </project>

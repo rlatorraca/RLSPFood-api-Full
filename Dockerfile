@@ -5,8 +5,12 @@ FROM openjdk:17.0.1-slim-buster
 # Se nao existir o DIRECTORY ele sera criado
 WORKDIR /app
 
+# Rebece o ARGUMENTO em tempo de execucao
+# recebe do pom.xml
+ARG JAR_FILE
 # ORIGIN (na maquina), para o DESTINO (dentro do docker)
-COPY target/rlspfood*.jar /app/rlspfood.jar
+# OLD: COPY target/rlspfood*.jar /app/rlspfood.jar
+COPY target/${JAR_FILE} /app/rlspfood.jar
 
 # Diz em qual PORTA o Container estara escutando
 # Nao existe a publicacao da porta como no comando docker (-p 8080:80), mas e apenas uma documentacao

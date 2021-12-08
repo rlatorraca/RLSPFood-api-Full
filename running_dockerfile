@@ -1,5 +1,8 @@
 # Compilando o APP JAVA com com o maven (dentro da pasta raiz do projeto)
-$ ./mvnw clean package -Dmaven.test.skip=true
+# OLD: $ ./mvnw clean package -Dmaven.test.skip=true
+
+# Compila e cria um image docker, com base Docker Maven incluido no pom.xml (-P : Profile)
+$ ./mvnw clean package -Dmaven.test.skip=true -Pdocker
 
 
 # Rodando o DockerFiledocker
