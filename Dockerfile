@@ -12,6 +12,12 @@ ARG JAR_FILE
 # OLD: COPY target/rlspfood*.jar /app/rlspfood.jar
 COPY target/${JAR_FILE} /app/rlspfood.jar
 
+# Copia o wait-for-it.sh para dentro do container
+COPY wait-for-it.sh /wait-for-it.sh
+
+# Faz com o arquivo acima seja executalve
+RUN chmod +x /wait-for-it.sh
+
 # Diz em qual PORTA o Container estara escutando
 # Nao existe a publicacao da porta como no comando docker (-p 8080:80), mas e apenas uma documentacao
 EXPOSE 8080

@@ -19,6 +19,7 @@ services:
   rlspfood-api:
     #build: .
     image: rlspfood:1.0
+    command: ["/wait-for-it.sh", "rlspfood-mysql:3308", "-t", "15", "--", "java", "-jar", "rlspfood.jar"]
     environment:
       DB_HOST: rlspfood-mysql
       DP_PORT: 3308
