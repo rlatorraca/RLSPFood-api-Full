@@ -1,5 +1,12 @@
 set foreign_key_checks = 0;
 
+lock tables tbl_city write, tbl_cuisine write, tbl_group write, tbl_paymenttype write,
+	tbl_permission write, tbl_product write, tbl_province write,
+	tbl_restaurant write, tbl_user write, tbl_user_group write,
+	tbl_group_permission write, tbl_restaurant_paymenttype write, tbl_restaurant_user_manager write,
+	tbl_order write, tbl_orderitem write, tbl_taxprovince write, tbl_product_photo write,
+    oauth_client_details write;
+
 delete from tbl_city;
 delete from tbl_cuisine;
 delete from tbl_group;
@@ -335,3 +342,4 @@ insert into oauth_client_details (
    null
 );
 
+unlock tables;
