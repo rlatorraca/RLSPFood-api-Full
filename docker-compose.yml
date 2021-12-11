@@ -30,3 +30,13 @@ services:
       - rlspfood-network
     depends_on:
       - rlspfood-mysql
+
+  rlspfood-reverse-proxy-nginx:
+    build: ./nginx
+    image: rlspfood-nginx
+    ports:
+      - "80:80"
+    networks:
+      - rlspfood-network
+    depends_on:
+      - rlspfood-api
