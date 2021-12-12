@@ -73,3 +73,7 @@ $ docker run --rm -it --network rlspfood-api-full_rlspfood-network redis:6.2.6-a
 # set name Rodrigo (insere a chave 'name:Rodrigo'
 # get name (mostra o que tem na chave)
 # del name (deleta a chave nome)
+
+
+## Verifica se ja esta aplicada a mudanca para a vulnerabilidade do Log4j
+$ ./mvnw dependency:list | grep log4j
