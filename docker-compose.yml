@@ -28,6 +28,8 @@ services:
     environment:
       DB_HOST: rlspfood-mysql
       DP_PORT: 3308
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: rlspfood-redis
     # tiramos a porta para pode fazer rodar 2+ instancias em portas diferentes
     #ports:
     #  - "8080:8080"
