@@ -10,7 +10,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
-      #MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "3308:3306"
     networks:
@@ -19,10 +19,13 @@ services:
   rlspfood-api:
     #build: .
     image: rlspfood:1.0
-    command: ["/wait-for-it.sh", "rlspfood-mysql:3308", "-t", "15", "--", "java", "-jar", "rlspfood.jar"]
+    command: ["/wait-for-it.sh", "rlspfood-mysql:3306", "-t", "15", "--", "java", "-jar", "rlspfood.jar"]
     environment:
       DB_HOST: rlspfood-mysql
       DP_PORT: 3308
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: rlspfood-redis
+      SPRING_PROFILES_ACTIVE: development
     # tiramos a porta para pode fazer rodar 2+ instancias em portas diferentes
     #ports:
     #  - "8080:8080"

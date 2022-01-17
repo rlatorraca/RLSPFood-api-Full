@@ -18,8 +18,7 @@ $ docker image tag <errado> <nova-tag>
 $ docker image rm <nome_para_apagar>
 
 
-# Verficiar as redes docker existentes
-$ docker network ls
+# Verficiar as redes
 
 # Criar uma rede docker
 $ docker network create --driver bridge rlspfood-network
@@ -43,7 +42,7 @@ $ docker container run --rm -p 8080:8080 -e DB_HOST=rlspfood-mysql -e DB_PORT=33
 # Conectar no MYSQL, para fazer alteracoes de permissoes
 # Pois, o o usuário root está configurado apenas para conexões a partir de localhost ('root'@'localhost').
 # Você pode mudar esse comportamento rodando os comandos abaixo pra permitir conexões de qualquer host:
-$ docker exec -it <container-id> bas
+$ docker exec -it <container-id> bash
 $ mysql -h localhost -u root -p root
 
 FLUSH PRIVILEGES;

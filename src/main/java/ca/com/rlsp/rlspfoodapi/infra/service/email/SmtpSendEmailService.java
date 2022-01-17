@@ -26,7 +26,7 @@ public class SmtpSendEmailService implements SendEmailService {
     private EmailProperties emailProperties;
 
     @Autowired
-    private Configuration freemarkerConfiguration; // Injeta o Freemarker processador de Template de Emails
+    private ProcessorTemplateEmail processorTemplateEmail;
 
     @Override
     public void send(Message message) {
@@ -43,7 +43,8 @@ public class SmtpSendEmailService implements SendEmailService {
     }
 
     protected MimeMessage buildMimeMessage(Message message) throws MessagingException {
-        String emailBodyProcessed = processTemplateFreeMarker(message);
+        //String emailBodyProcessed = processTemplateFreeMarker(message);
+        String emailBodyProcessed = processorTemplateEmail.processTemplateFreeMarker(message);
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -55,13 +56,5 @@ public class SmtpSendEmailService implements SendEmailService {
         return mimeMessage;
     }
 
-    protected String processTemplateFreeMarker(Message message){
-        try {
-            Template template = freemarkerConfiguration.getTemplate(message.getBody());
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template, message.getTemplateAttributes());
-        } catch (Exception e) {
-            throw new EmailException(MSG_ERROR_PROCESSING_EMAIL, e);
-        }
 
-    }
 }

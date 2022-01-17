@@ -7,4 +7,3 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Copia o arquivo customizad para o arquivo de configucao padro do NGINX
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-ng

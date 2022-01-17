@@ -14,11 +14,14 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.internet.MimeMessage;
 
 @Slf4j
-public class MockSmtpSendEmailService extends SmtpSendEmailService {
+public class MockSmtpSendEmailService implements SendEmailService {
+//public class MockSmtpSendEmailService extends SmtpSendEmailService {
 
+    @Autowired
+    private ProcessorTemplateEmail processorTemplateEmail;
     @Override
     public void send(Message message) {
-        String body = processTemplateFreeMarker(message);
+        String body = processorTemplateEmail.processTemplateFreeMarker(message);
 
         log.info("RLSP MOCK email to : {} \n{}", message.getDestinations(), body);
     }
