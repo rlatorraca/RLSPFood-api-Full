@@ -61,3 +61,18 @@ SET PASSWORD FOR 'root'@'localhost' = 'mypass';
 $ docker image tag rlspfood:1.0 rlatorraca/rlspfood-api:1.0
 $ docker push rlspfood:1.0
 $ docker container run --rm -p 8080:8080 -e DB_HOST=rlspfood-mysql -e DB_PORT=3306 --network rlspfood-network rlatorraca/rlspfood-api:1.0
+
+
+##
+## Rodar um container acessano a rede que esta a aplicacao e o redis
+$ docker run --rm -it --network rlspfood-api-full_rlspfood-network redis:6.2.6-alpine sh
+# ping rlspfood-redis
+# redis-cli -h rlspfood-redis -p 6379 (conecta no redis da aplicacao criado no Dockerfile)
+# keys * (olha as chaves existentes)
+# set name Rodrigo (insere a chave 'name:Rodrigo'
+# get name (mostra o que tem na chave)
+# del name (deleta a chave nome)
+
+
+## Verifica se ja esta aplicada a mudanca para a vulnerabilidade do Log4j
+$ ./mvnw dependency:list | grep log4j
